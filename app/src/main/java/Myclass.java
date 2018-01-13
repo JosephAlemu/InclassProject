@@ -11,78 +11,126 @@ import java.util.Enumeration;
 public class Myclass {
 
 
-
-
-
-    public static void findNumber (int [] arr) {
-        int Key;
+    public static void findNumber(int[] arr) {
+        int key = 0;
         int temp, value;
+        boolean check = false;
+        int max = Integer.MIN_VALUE;
         Hashtable hash = new Hashtable();
+
+
         for (int i = 0; i < arr.length; i++) {
-            if (hash.contains(arr[i])) {
-                Key = arr[i];
-                System.out.println(i+"="+Key);
-                temp = (int) hash.get(Key);
-                hash.put(Key, temp + 1);
-                System.out.println(temp);
+            check = hash.containsKey(arr[i]);
+
+            if (check) {
+                key = arr[i];
+
+                temp = (int) hash.get(key);
+                hash.put(key, temp + 1);
+
             } else {
-                Key = arr[i];
+                key = arr[i];
                 temp = 1;
-                hash.put(Key, temp);
+                hash.put(key, temp);
             }
         }
 
-
-        Enumeration e = hash.keys();
+        Enumeration Keyval = hash.keys();
 
         //iterate through Hashtable keys Enumeration
-        while (e.hasMoreElements())
-        {
-            temp = (int)e.nextElement();
+        while (Keyval.hasMoreElements()) {
+            temp = (int) Keyval.nextElement();
+            value = (int) hash.get(temp);
+            if (max < value) {
+                key = temp;
+                max = value;
 
-            System.out.println(e.nextElement());
+            }
+
+
         }
+
+        System.out.println(key + " is most occurrence value in the array");
+
+
     }
 
 
-    public static void  Armstrongnumber  (int number) {
+    public static void ArmstrongNumber(int number) {
 
-        int  sum = 0, temp, remainder, digits = 0;
-
-
-        temp =number;
-
-        // Count number of digits
-
-        while (temp != 0) {
-            digits++;
-            temp = temp/10;
-        }
+        int TotalSum = 0, temp = 0, digits = 0, remainder = 0;
+        ///   Armstrong number
+        //   let say  we have number  1234    since its 4 digits   1 ^4 + 2^4 +3^4 +4^4 == 1234 then it Armstrong number
 
         temp = number;
 
         while (temp != 0) {
-            remainder = temp%10;
-            sum = sum + power(remainder, digits);
-            temp = temp/10;
+            digits++;
+            temp = temp / 10;
         }
 
-        if (number == sum)
-            System.out.println(number+ " is an Armstrong number.");
+        temp = number;
+
+        while (temp != 0) {   // temp = 123 then %10 gives out  3 as remainder  temp going be 12
+            remainder = temp % 10;
+
+            //
+            TotalSum = TotalSum + MathPower(remainder, digits);
+            temp = temp / 10;
+        }
+
+        if (number == TotalSum)
+            System.out.println(number + " is an Armstrong number.");
         else
             System.out.println(number + " is not an Armstrong number.");
     }
 
-    static int power(int number, int r) {
+    static int MathPower(int number, int power) {
 
-        return  
+
+        int result = 1;
+
+        for (int i = 1; i <= power; i++)
+            result = result * number;
+
+        return result;
     }
+
+
+
+    public static int FindNcube(int number)
+    {
+         // n^3 + (n-1)^3 + (n-2)^3 + ... + 1^3 = m
+        int x= 0;
+        int TotalSum = 0;
+        while (true)
+        {
+            x += 1;
+            TotalSum +=  Math.pow(x, 3);
+            if (TotalSum >= number) {
+                break;
+            }
+        }
+        if (TotalSum == number) {
+            return x;
+        } else {
+            return -1;
+        }
+    }
+
 
     public static void main(String[] args)
 
     {
-        int [] array = {2,3,4,5,5,6,7};
+        int[] array = {2, 3, 4, 5, 5, 6, 7};
+        System.out.println("***********************************************");
+        int result = FindNcube(1071225);
+        System.out.println("\n");
+        System.out.println(result+"");
+         ArmstrongNumber(371);
+        System.out.println("\n");
         findNumber(array);
+        System.out.println("***********************************************");
     }
 
 }
